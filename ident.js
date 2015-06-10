@@ -89,6 +89,30 @@ document.addEventListener("DOMContentLoaded", function(e){
         return {frame: frame, perf: perf};
     });
 
+    idents.push(function(){
+        var last_clip_change = -600;
+        function frame(t){
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if(t - last_clip_change > 800){
+                last_clip_change = t;
+                ctx.beginPath();
+                for(let i = 0; i < 5; i++){
+                    ctx.rect(Math.random() * 800 - 400, Math.random() * 800 - 400, Math.random() * 400, Math.random() * 400);
+                }
+            }
+            ctx.save();
+            ctx.clip();
+            ctx.drawImage(me, 0, 0, me.width, me.height, 100, 100, me.width, me.height);
+            ctx.restore();
+        }
+
+        function perf(m){
+            // yeah
+        }
+
+        return {frame: frame, perf: perf};
+    });
+
 
 
     var ident = idents[Math.floor(Math.random()*idents.length)]();
